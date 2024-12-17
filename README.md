@@ -58,6 +58,6 @@ GENIUS adalah sebuah platform WebGIS interaktif yang menyajikan informasi lengka
 **&copy; 2024 GENIUS - Geospatial Exploration of Indonesia's UNESCO Sites**  
 
 ## e. Hasil Produk
-![Tampilan Home](images/home.png)
+![Tampilan Home](image/home.png)
 
 
