@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Geopark - Warisan Indonesia</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+        <img src="icon/iconlogo.png" alt="Logo" class="logo">
+        <span class="site-name">GENIUS</span>
+    </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="grafik.html">Graph</a></li>
+        <li><a href="info.html">Info Pembuat</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Peta Interaktif Global Geopark</h2>
+    <div id="map" style="height: 500px; border-radius: 10px;"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 WebGIS UNESCO Indonesia</p>
+  </footer>
+
+  <!-- Script Peta -->
+  <script>
+    // Inisialisasi peta
+    const map = L.map('map').setView([-2.5489, 118.0149], 5);
+
+    // Tile Layer untuk basemap
+    const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors'
+    });
+
+    const esriWorldStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri — Source: Esri, DeLorme, NAVTEQ',
+      maxZoom: 18
+    });
+
+    const esriImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri — Source: Esri, Earthstar Geographics',
+      maxZoom: 18
+    });
+
+    // Tambahkan OpenStreetMap sebagai basemap default
+    openStreetMap.addTo(map);
+
+    // Custom Icon
+    const customIcon = L.icon({
+      iconUrl: "icon/geopark_marker.png", // URL gambar ikon
+      iconSize: [34, 34],                // Ukuran ikon
+      iconAnchor: [16, 32],              // Posisi anchor ikon
+      popupAnchor: [0, -32]              // Posisi popup
+    });
+
+    // Data GeoJSON untuk Global Geopark
+    const geoparkGeoJSON = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Kaldera Toba",
+            "image": "image/toba_geopark.jpg",
+            "description": "Lake Toba is situated in Sumatera island (Indonesia), formed by a mega-volcanic eruption 74,000 years ago, is the largest with-in the Quaternary (since + 2 Ma). It is the ‘super-volcano’ eruption (VEI> 8) which produced 2,800 km3 pyroclastics materials, where 2,000 km3 of volcanic-ash dispersed to W-NW, and also distributes of sulfuric-acid aerosol to the atmosphere which is deposited in the Arctic and the Antarctic areas (Rose & Chesner, 1991; Chesner, 2011). This mega-eruption collapsed the roof of Toba magma chamber and exposed the basement rocks of this area. The rock formations underlying the area consists of meta-sedimentary rocks that are parts of the Gondwana continent which formed in the South Pole region during Permo-Carbon (300 Ma), exposed around the steep-cliff walls of Toba caldera rim. In the process to reach a new equilibrium post-’supervolcano’ eruption, Toba lake bottom is driven (pushed- up) by the residual pressure of the magma chamber, and formed Samosir Island (resurgent doming). This is the most active Caldera Resurgent in the world (de Silva, et al., 2015) The 90 x 30 km2 large (+ 1130 km2) of Toba Caldera is filled by rain-water, it’s the largest volcanic-lake origin, consist of + 240 km3 of fresh-water with a maximum depth about 505 m."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [98.94569686968418, 2.613941149974986]
+          } 
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Merangin Jambi",
+            "image": "image/merangin.jpg",
+            "description": "Situated in the central part of Sumatra Island, the Merangin Jambi UNESCO Global Geopark comprises 12 out of the 24 sub-districts within the Merangin Regency, which forms part of Jambi Province, Indonesia. The region's topography encompasses lowlands on the eastern side and highlands on the western side, with the highest peak reaching an elevation of 2,900m above sea level on Mount Masurai. The exceptional geology found in Merangin Jambi UNESCO Global Geopark contributes to the stunning scenery, which holds significant conservation importance and is recognized as part of the World Heritage property known as the Tropical Rainforest of Sumatra (inscribed in 2004). This area is inhabited by over 4,000 plant species and 372 animal species, including several critically endangered species like the Sumatran tiger. The landscape encompasses diverse features such as karst formations, valleys, and mountains, which not only provide a habitat for various forms of life but also bear evidence of human civilization from ancient times to the present."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [102.2661, -2.0181]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Belitong",
+            "image": "image/belitong.jpg",
+            "description": "Belitong Geopark is a part of Bangka Belitung province, located about 400 km north of Jakarta, the capital of Indonesia, and surrounded by the Karimata Strait to the north, the Java region to the east and south, and the Gaspar Strait to the west.Belitong Geopark has a total area of about 4,800 square kilometers of land and 13,000 square kilometers of sea and is surrounded by 241 small islands, including the islands of Mendanau, Kalimambang, Gresik and Selu. Belitong Geopark has a tropical climate and consists of several geological diversities. The main land consists of the combination of flooded hills surrounded by lowlands reaching the level of 0 abova (masl). The upland cluster region exists at its highest point, up to 510 masl in the center of the country. This highland region is composed of sedimentary rocks that are part of the Tajam formation. The highest point is at 415 masl, which is the Burung Mandicule cluster, which includes Mang and Malang. The other hill clusters range from 300 to 400 masl in the northwest and east of the center of the country. The northwestern hill clusters are composed of the oldest Belitung plutonium, the Tanjung Pandan granite, while the east-central clusters are generally composed of metasedimentary rocks as part of the Kelapa Kampit formation. The southwestern hill clusters range from 50 to 300 million in elevation and are composed of the Jurasic plutonic rock, adamellite, which is part of the Ademalite Baginde Rocks. As of 2018, the population of Belitung Island is about 288,771. The highest density is in Tanjung Pandan sub-district with 55.73% and the lowest in Selat Nasiks sub-district with 3.57%. Six religions are present on the island, including Islam, Buddhism, Christianity, Catholicism, Hinduism and Confucianism. Most of the land is rural and the majority of the population is engaged in agriculture, including white bell pepper, coconut and oil palm. Fishing is considered an important sector, as many villages are located in the coastal area. However, tin mining has contributed to the local economy for many years."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [107.62923863376719, -2.7343067280506825]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Ciletuh-Pelabuhanratu",
+            "image": "image/ciletuh.jpg",
+            "description": "Ciletuh - Palabuhanratu UNESCO Global Geopark is located on the island of Java, in the western Sukabumi Regency of Indonesia. The Geopark is located on the border of a tectonically active zone: the subduction zone between the Eurasian plate and the Indo-Australian plate, which continue to converge at 4 mm/year. The area is characterized by a rare geological diversity that can be classified into three zones: the subduction zone uplifted rocks, the Jampang Plateau landscape and the ancient magmatic zone shifting and fore arc evolution. Evidence for a similar subduction process that occurred during the Cretaceous age (145–66 million years ago) is found in the Ciletuh area in the form of rock formations that were deposited within the deep subduction trench. These rock formations are composed of ophiolite, metamorphic, deep sedimentary rocks, and mélange complexes and are known as the oldest rock formations on the surface of West Java. In the Oligocene-Early Miocene (approx. 23 to 15 million years ago), the area underwent an uplifting and formed the Jampang Plateau. The tectonic process during the Miocene-Pliocene (5-8 million years ago) led to the gravitational collapse of part of the Jampang Formation, forming the biggest horse shoe-shaped natural amphitheater morphology in Indonesia and a series of waterfalls. The area can be also described as ‘the first land of the western Java Island’. The weathering and aberration process affected several rock formations and resulted in a unique formation of animal-shaped rocks. Since the Pleistocene (2.5 million years ago to recent), volcanic activity has been shifting to the north, resulting in hot springs, geysers and geothermal resources in the northern area."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [106.4260, -7.2289]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Gunung Sewu", 
+            "image": "image/gunungsewu.jpg",
+            "description": "Located in the Southern Mountains of East Java, Gunung Sewu UNESCO Global Geopark extends east-west along 120 kilometres. A depression zone occupied by Merapi and Lawu active volcanoes limits its northern part, while the south is bordered by the Indian Ocean. The area, at an altitude between 5 m and 700 m asl, has mountain ranges of Upper Paleogene rocks and thousands of younger limestone hills. Gunung Sewu UNESCO Global Geopark is a classic tropical karst landscape in the south central part of Java Island well-known in the world, and dominated by limestone. The limestone is of Neogene age and consists of calcareous-tuffaceous clastic facies (Oyo and Kepek formations) as well as reef facies (Wonosari formation). Late Oligocene to Early Miocene rocks of volcanic-origin clastic, volcanic and marine sediments underlie these limestones. Quaternary river and lake deposits represent the youngest units. There is still tectonic activity in the region because Gunung Sewu is located in front of an active subduction zone between the Indian Ocean, Australian and Eurasian plates. Active uplifting is taking place since 1.8 million years and produces very visible river terraces at Sadeng dry-valley as well as coastal terraces along the southern coast of the UNESCO Global Geopark."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [110.58311872328494, -8.081931011803606]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Geopark Gunung Batur",
+            "image": "image/batur.jpg",
+            "description": "Batur UNESCO Global Geopark is located in northeast Bali, the most popular international tourist destination in Indonesia. It covers an area of 370.5 km2, at an altitude of 920-2152 m a.s.l., the outer-caldera wall surrounds the inner-caldera wall, Mt. Batur and the lake. Most of the Natural Tourist Park of Mt. Batur dan Payang Hill, is a protected forest area included in the UNESCO Global Geopark area. Batur UNESCO Global Geopark includes two volcanic calderas and presents a complete volcanic landscape with caldera walls, cones and craters, geothermal phenomena (fumaroles, hot springs), a lake, lava flows, pyroclastic flows and tephra. Two cataclysmic eruptions that occurred 29,000 years and 20,000 years ago produced an outer-caldera (old) and inner-caldera (young), respectively, from which the grand landscape scenery originate. Between the years 1804 and 2000, Mt. Batur erupted at least 22 times forming a strato-volcano which is one of 127 active volcanoes in Indonesia, and an important component of the Pacific “ring of fire”. The phenomenon of double-calderas with a crescent-shaped volcanic lake (7 km long, 1.5 km wide) and located 1,031 m a.s.l. was called the finest caldera in the world. The uniqueness of the area’s geology of volcanic origin, endemic flora and fauna, and original culture motivated by the Balinese Hindu religion is a perfect combination of different heritages of the Earth."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [115.3791, -8.2520]
+          }
+        },
+    
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Gunung Rinjani",  
+            "image": "image/rinjanilombok.jpg",
+            "description": "Rinjani-Lombok UNESCO Global Geopark is situated on the island of Lombok in Southeast Asia. As part of the Lesser Sunda Islands or Kepulauan Nusa Tenggara, the island is located between Bali and the Lombok Strait to the west and Sumbawa and the Alas Strait to the east. Rinjani-Lombok UNESCO Global Geopark has a rich and diverse landscape, forest types ranging from savannahs and semi deciduous forests to lower montane evergreen forests and tropical montane evergreen forests. Quaternary calcalkaline volcanoes, Oligo-Miocene volcanic rocks and Neogene intrusive igneous rocks dominate the island’s geology. The volcanic complex developed due to the subduction of the Indian Ocean Plate under the South East Asia Plate. The Quaternary volcanoes can be further categorized into an old and young complex. The old volcano complex consists of the Mt. Punikan and Mt. Nangi in the west and Mt. Sembalun in the east. With a height of 3,726 m a.s.l. Mt. Rinjani presently holds the highest peak in the volcanic complex. The caldera of the Samalas Volcano, filled with a combination of meteoric and hydrothermal water, has formed a lake named Segara Anak. In the middle of the caldera emerges a young volcanic cone, Mt. Rombongan and Mt. Barujari. The youngest volcanic complex, Mt. Rinjani was formed approximately 12,000 to 6,000 years ago. Two volcanic cones existed prior to the eruption of the Samalas or Old Rinjani volcano in the 13th century, the Samalas Volcano and Mt. Rinjani. The eruption of Samalas in 1257 resulted in the formation of a huge caldera and pyroclastic flow in Kokok Putik and caused the collapse of part of Old Rinjani. This eruption changed the entire landscape, buried the old civilization and created a stage for the beginning of a new culture era."
+          
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [116.45782086877315, -8.409978982284532]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Maros Pangkep",
+            "image": "image/maros.jpg",
+            "description": "Maros Pangkep UNESCO Global Geopark is located in the southern part of Sulawesi Island, intersected by the Wallace Line and encompasses Maros and Pangkep Regencies in South Sulawesi Province. The geopark land accounts for 44.6% and water covers 55.4% of the total area, primarily consists of the Bantimurung Bulusaraung National Park on the mainland, along with the Kapoposang Water Tourism Park and the Liukang Tupabbiring Local Marine Conservation in the ocean. Within this geopark, there are 1,437 species of flora and fauna, including 153 endemic species found only in Sulawesi, as well as 52 protected and endangered species."
+            
+          
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [119.66731971457648, -4.9424248473292725]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { 
+            "name": "Raja Ampat",
+            "image": "image/rajaAmpat.jpg",
+            "description": "'The Emerald Karst in the Equator', Raja Ampat UNESCO Global Geopark, is made up of four primary islands, Waigeo, Batanta, Salawati, and Misool. The geopark area's well-preserved, unique, and scarce landscapes captivate visitors and entice them to delve deeper into the aesthetic value it offers. The geopark's geological structures, such as joints and faults that facilitate erosion and result in the formation of distinctively shaped limestone islands, are found in Wayag, Kabui, and the eastern islets of Misool."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [130.86774683345632, -1.0155702519702108]
+          }
+        },
+      ]
+    };
+
+    // Menambahkan GeoJSON ke peta
+    L.geoJSON(geoparkGeoJSON, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: customIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                // Tambahkan popup dengan gambar dan deskripsi
+                if (feature.properties) {
+                    const { name, image, description } = feature.properties;
+                    layer.bindPopup(`
+            <div style="text-align:center; max-height:321px; overflow-y:auto;">
+                <img src="${image}" alt="${name}" style="width:100%; border-radius:5px; margin-bottom:10px;">
+                <h3>${name}</h3>
+                <p style="text-align:justify;">${description}</p>
+            </div>
+            `);
+                }
+            }
+        }).addTo(map);
+        // Opsi basemap untuk Layer Control
+        const baseMaps = {
+            "OpenStreetMap": openStreetMap,
+            "Esri World Street": esriWorldStreet,
+            "Esri Imagery": esriImagery
+        };
+
+        // Tambahkan kontrol layer ke peta
+        L.control.layers(baseMaps).addTo(map);
+
+        // Watermark
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function (map) {
+                var img = L.DomUtil.create("img");
+                img.src = "image/LOGO_SIG_BLUE.png";
+                img.style.width = "100px";
+                return img;
+            },
+        });
+        L.control.watermark = function (opts) {
+            return new L.Control.Watermark(opts);
+        };
+
+        L.control.watermark({ position: "bottomleft" }).addTo(map);
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Warisan Indonesia - Grafik</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery untuk AJAX -->
+
+  <!-- Gaya CSS untuk Tabel Modern -->
+  <style>
+    /* Tabel Modern */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .styled-table thead {
+        background-color: #2a9d8f; /* Warna header */
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f4f4f4; /* Warna belang */
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #f4a261; /* Warna hover */
+        color: #ffffff;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #2a9d8f;
+    }
+
+    /* Responsif Tabel */
+    @media screen and (max-width: 768px) {
+      .styled-table th, .styled-table td {
+          padding: 8px 10px;
+          font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="landing-header">
+    <div class="logo">
+      <h1>Warisan Indonesia</h1>
+    </div>
+    <nav class="landing-nav">
+      <a href="index.html">Home</a>
+      <a href="grafik.html">Graph</a>
+      <a href="info.html">Info Pembuat</a>
+    </nav>
+  </header>
+
+  <!-- Grafik Section -->
+  <section class="interactive-maps">
+    <h2>Grafik Data Warisan Indonesia</h2>
+    <canvas id="warisanChart" width="400" height="200"></canvas>
+  </section>
+
+  <!-- Tabel Data Budaya -->
+  <section>
+    <h2>Data Warisan Budaya UNESCO</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nama Budaya</th>
+          <th>Longitude</th>
+          <th>Latitude</th>
+          <th>Tahun</th>
+          <th>Kondisi</th>
+        </tr>
+      </thead>
+      <tbody id="data-budaya">
+        <!-- Data akan dimuat secara dinamis menggunakan AJAX -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Warisan Indonesia. Semua Hak Dilindungi.</p>
+  </footer>
+
+  <!-- Script Grafik dan Data -->
+  <script>
+    $(document).ready(function () {
+      // AJAX untuk mengambil data dari data_budaya.php
+      $.ajax({
+        url: 'data_budaya.php', // URL ke file PHP
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          // Data untuk grafik
+          let chartLabels = ['Budaya', 'Takbenda', 'Alam'];
+          let chartData = [30, 45, 15];
+
+          // Data untuk tabel
+          let tableContent = '';
+
+          response.forEach(function (item) {
+            // Menambahkan data ke tabel
+            tableContent += `
+              <tr>
+                <td>${item.id}</td>
+                <td>${item.nama}</td>
+                <td>${item.longitude}</td>
+                <td>${item.latitude}</td>
+                <td>${item.tahun}</td>
+                <td>${item.kondisi}</td>
+              </tr>
+            `;
+
+            // Memasukkan data ke dalam grafik
+            if (item.kondisi === 'Budaya') chartData[0]++;
+            else if (item.kondisi === 'Takbenda') chartData[1]++;
+            else if (item.kondisi === 'Alam') chartData[2]++;
+          });
+
+          // Update tabel di HTML
+          $('#data-budaya').html(tableContent);
+
+          // Membuat grafik bar
+          const ctx = document.getElementById('warisanChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: chartLabels,
+              datasets: [{
+                label: 'Jumlah Warisan Indonesia',
+                data: chartData,
+                backgroundColor: ['#2a9d8f', '#f4a261', '#e76f51'],
+                borderColor: '#264653',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: { beginAtZero: true }
+              }
+            }
+          });
+        },
+        error: function (xhr, status, error) {
+          console.error('Gagal mengambil data:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

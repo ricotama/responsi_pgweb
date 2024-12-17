@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cagar Biosfer - Warisan Indonesia</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+        <img src="icon/iconlogo.png" alt="Logo" class="logo">
+        <span class="site-name">GENIUS</span>
+    </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="grafik.html">Graph</a></li>
+        <li><a href="info.html">Info Pembuat</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Peta Interaktif Cagar Biosfer</h2>
+    <div id="map" style="height: 500px; border-radius: 10px;"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 WebGIS UNESCO Indonesia</p>
+  </footer>
+
+  <!-- Script Peta -->
+  <script>
+    // Inisialisasi peta
+    const map = L.map('map').setView([-2.5489, 118.0149], 5);
+
+    // Tile Layer untuk basemap
+    const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        });
+
+        const esriWorldStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri — Source: Esri, DeLorme, NAVTEQ',
+            maxZoom: 18
+        });
+
+        const esriImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri — Source: Esri, Earthstar Geographics',
+            maxZoom: 18
+        });
+
+        // Tambahkan OpenStreetMap sebagai default basemap
+        openStreetMap.addTo(map);
+
+        // Custom Icon
+        const customIcon = L.icon({
+            iconUrl: "icon/budaya_marker.png", // URL gambar icon
+            iconSize: [53, 53], // Ukuran icon [width, height]
+            iconAnchor: [16, 32], // Posisi anchor icon
+            popupAnchor: [0, -32] // Posisi popup
+        });
+
+    // Data GeoJSON untuk Cagar Biosfer
+    const biosphereGeoJSON = {
+      "type": "FeatureCollection",
+      "features": [
+      {
+          "type": "Feature",
+          "properties": { "name": "Taman Nasional Gunung Leuser" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [97.727000, 4.125000]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "Siberut" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [98.97805927031985, -1.120378483605833]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "Berbak Sembilang" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [103.65360040543052, -1.4510701379102309]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Cibodas" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [107.0075578240273, -6.740257252536524]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Merapi-Merbabu-Menoreh" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [110.37238974034247, -7.5652000288128125]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Karimunjawa-Jepara-Muria" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [110.6729392353422, -6.5805162341645245]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Bromo Tengger-Semeru-Arjuna" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [112.95270713296246, -8.012281245924466]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Belambangan" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [114.31466847386884, -8.370111327860082]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Tanjung Puting" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [111.90824942559003, -2.9839456997556106]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Betung Kerihun Danau Sentarum" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [113.19510055372474, 1.2474637138485578]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Rinjani-Lombok" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [116.45720609594349, -8.373037514080762]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Saleh-Moyo-Tambora" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [118.0075014916714, -7.9829479260586576]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Komodo" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [119.46861091974301, -8.433770891078671]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Wakatobi" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [123.88320956346594, -5.584366288289975]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Bantimurung Bulusaraung - MA'RUPANNE" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [119.82317806262712, -4.79472603083818]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Lore Lindu" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [120.18894746441786, -1.474837684545506]
+          }
+        },
+
+        {
+          "type": "Feature",
+          "properties": { "name": "Togean Tojo Una-Una" },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [121.90353649016654, -0.41197210133482426]
+          }
+        },
+      ]
+    };
+
+    // Menambahkan GeoJSON ke peta
+    L.geoJSON(biosphereGeoJSON, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: customIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                // Tambahkan popup dengan gambar dan deskripsi
+                if (feature.properties) {
+                    const { name, image, description } = feature.properties;
+                    layer.bindPopup(`
+            <div style="text-align:center; max-height:321px; overflow-y:auto;">
+                <img src="${image}" alt="${name}" style="width:100%; border-radius:5px; margin-bottom:10px;">
+                <h3>${name}</h3>
+                <p style="text-align:justify;">${description}</p>
+            </div>
+            `);
+                }
+            }
+        }).addTo(map);
+        // Opsi basemap untuk Layer Control
+        const baseMaps = {
+            "OpenStreetMap": openStreetMap,
+            "Esri World Street": esriWorldStreet,
+            "Esri Imagery": esriImagery
+        };
+
+        // Tambahkan kontrol layer ke peta
+        L.control.layers(baseMaps).addTo(map);
+
+        // Watermark
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function (map) {
+                var img = L.DomUtil.create("img");
+                img.src = "image/LOGO_SIG_BLUE.png";
+                img.style.width = "100px";
+                return img;
+            },
+        });
+        L.control.watermark = function (opts) {
+            return new L.Control.Watermark(opts);
+        };
+
+        L.control.watermark({ position: "bottomleft" }).addTo(map);
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "sites": [
+      {
+        "name": "Candi Borobudur",
+        "category": "Warisan Budaya",
+        "lat": -7.607874,
+        "lng": 110.203751,
+        "description": "Candi Buddha terbesar di dunia, terletak di Magelang, Jawa Tengah."
+      },
+      {
+        "name": "Taman Nasional Komodo",
+        "category": "Warisan Alam",
+        "lat": -8.520556,
+        "lng": 119.488889,
+        "description": "Habitat asli Komodo, reptil terbesar di dunia."
+      },
+      {
+        "name": "Batik Indonesia",
+        "category": "Warisan Budaya Takbenda",
+        "lat": -7.795579,
+        "lng": 110.369489,
+        "description": "Kain tradisional yang diakui UNESCO sebagai warisan budaya takbenda."
+      }
+    ]
+  }
+  

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warisan Budaya - UNESCO Indonesia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="icon/iconlogo.png" alt="Logo" class="logo">
+            <span class="site-name">GENIUS</span>
+        </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="grafik.html">Graph</a></li>
+                <li><a href="info.html">Info Pembuat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Peta Interaktif</h2>
+        <div id="map" style="height: 500px; border-radius: 10px;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 WebGIS UNESCO Indonesia</p>
+    </footer>
+
+    <!-- Script Peta -->
+    <script>
+        // Inisialisasi peta
+        const map = L.map('map').setView([-2.5489, 118.0149], 5);
+
+        // Tile Layer untuk basemap
+        const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        });
+
+        const esriWorldStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri — Source: Esri, DeLorme, NAVTEQ',
+            maxZoom: 18
+        });
+
+        const esriImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri — Source: Esri, Earthstar Geographics',
+            maxZoom: 18
+        });
+
+        // Tambahkan OpenStreetMap sebagai default basemap
+        openStreetMap.addTo(map);
+
+        // Custom Icon
+        const customIcon = L.icon({
+            iconUrl: "icon/budaya_marker.png", // URL gambar icon
+            iconSize: [53, 53], // Ukuran icon [width, height]
+            iconAnchor: [16, 32], // Posisi anchor icon
+            popupAnchor: [0, -32] // Posisi popup
+        });
+
+        // Data GeoJSON untuk situs budaya
+        const culturalSitesGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Ombilin Coal Mining Heritage of Sawahlunto",
+                        "image": "image/ombilin.jpg",
+                        "description": "Built for the extraction, processing and transport of high-quality coal in an inaccessible region of Sumatra, this industrial site was developed by the Netherlands East Indies’ government in the globally important period of industrialisation from the late 19th to the beginning of the 20th century. The workforce was recruited from the local Minangkabau people and supplemented by Javanese and Chinese contract workers, and convict laborers from Dutch-controlled areas. It comprises the mining site and company town, coal storage facilities at the port of Emmahaven and the railway network linking the mines to the coastal facilities. The Ombilin Coal Mining Heritage was built as an integrated system that enabled the efficient deep-bore extraction, processing, transport and shipment of coal. It is also an outstanding testimony of exchange and fusion between local knowledge and practices and European technology."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [100.7221236849234, -0.4957381083615482]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Prambanan Temple Compounds",
+                        "image": "image/prambanan_budaya.jpg",
+                        "description": "Built in the 10th century, this is the largest temple compound dedicated to Shiva in Indonesia. Rising above the centre of the last of these concentric squares are three temples decorated with reliefs illustrating the epic of the Ramayana, dedicated to the three great Hindu divinities (Shiva, Vishnu and Brahma) and three temples dedicated to the animals who serve them."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.491546, -7.752020]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Borobudur Temple Compounds",
+                        "image": "image/borobudur_budaya.jpg",
+                        "description": "This famous Buddhist temple, dating from the 8th and 9th centuries, is located in central Java. It was built in three tiers: a pyramidal base with five concentric square terraces, the trunk of a cone with three circular platforms and, at the top, a monumental stupa. The walls and balustrades are decorated with fine low reliefs, covering a total surface area of 2,500 m2. Around the circular platforms are 72 openwork stupas, each containing a statue of the Buddha. The monument was restored with UNESCO's help in the 1970s."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.20375666441785, -7.607645160473969]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "The Cosmological Axis of Yogyakarta and its Historic Landmarks",
+                        "image": "image/yogyakarta_cosmological_budaya.jpg",
+                        "description": "The central axis of Yogyakarta was established in the 18th century by Sultan Mangkubumi, and has continued from that time as a centre of government and Javanese cultural traditions. The six kilometre north-south axis is positioned to link Mount Merapi and the Indian Ocean, with the Kraton (palace) at its centre, and key cultural monuments lining the axis to the north and south that are connected through rituals. It embodies key beliefs about the cosmos in Javanese culture, including the marking of the cycles of life."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.36652637931886, -7.797740588579066]
+                    }
+                },
+
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Sangiran Early Man Site",
+                        "image": "image/sangiran_budaya.jpg",
+                        "description": "Excavations here from 1936 to 1941 led to the discovery of the first hominid fossil at this site. Later, 50 fossils of Meganthropus palaeo and Pithecanthropus erectus/Homo erectus were found – half of all the world's known hominid fossils. Inhabited for the past one and a half million years, Sangiran is one of the key sites for the understanding of human evolution."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.83416067791062, -7.455405589489277]
+                    }
+                },
+
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Cultural Landscape of Bali Province: the Subak System as a Manifestation of the Tri Hita Karana Philosophy",
+                        "image": "image/sbk_bali_budaya.jpg",
+                        "description": "The cultural landscape of Bali consists of five rice terraces and their water temples that cover 19,500 ha. The temples are the focus of a cooperative water management system of canals and weirs, known as subak, that dates back to the 9th century. Included in the landscape is the 18th-century Royal Water Temple of Pura Taman Ayun, the largest and most impressive architectural edifice of its type on the island. The subak reflects the philosophical concept of Tri Hita Karana, which brings together the realms of the spirit, the human world and nature. This philosophy was born of the cultural exchange between Bali and India over the past 2,000 years and has shaped the landscape of Bali. The subak system of democratic and egalitarian farming practices has enabled the Balinese to become the most prolific rice growers in the archipelago despite the challenge of supporting a dense population."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [115.185556, -8.381111]
+                    }
+                },
+            ]
+        };
+
+        // Menambahkan GeoJSON ke peta
+        L.geoJSON(culturalSitesGeoJSON, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: customIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                // Tambahkan popup dengan gambar dan deskripsi
+                if (feature.properties) {
+                    const { name, image, description } = feature.properties;
+                    layer.bindPopup(`
+            <div style="text-align:center; max-height:321px; overflow-y:auto;">
+                <img src="${image}" alt="${name}" style="width:100%; border-radius:5px; margin-bottom:10px;">
+                <h3>${name}</h3>
+                <p style="text-align:justify;">${description}</p>
+            </div>
+            `);
+                }
+            }
+        }).addTo(map);
+        // Opsi basemap untuk Layer Control
+        const baseMaps = {
+            "OpenStreetMap": openStreetMap,
+            "Esri World Street": esriWorldStreet,
+            "Esri Imagery": esriImagery
+        };
+
+        // Tambahkan kontrol layer ke peta
+        L.control.layers(baseMaps).addTo(map);
+
+        // Watermark
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function (map) {
+                var img = L.DomUtil.create("img");
+                img.src = "image/LOGO_SIG_BLUE.png";
+                img.style.width = "100px";
+                return img;
+            },
+        });
+        L.control.watermark = function (opts) {
+            return new L.Control.Watermark(opts);
+        };
+
+        L.control.watermark({ position: "bottomleft" }).addTo(map);
+    </script>
+</body>
+
+</html>

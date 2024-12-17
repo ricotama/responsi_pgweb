@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warisan Yogyakarta - UNESCO Indonesia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+        <img src="icon/iconlogo.png" alt="Logo" class="logo">
+        <span class="site-name">GENIUS</span>
+    </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="grafik.html">Graph</a></li>
+                <li><a href="info.html">Info Pembuat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Peta Interaktif Warisan Yogyakarta</h2>
+        <div id="map" style="height: 500px; border-radius: 10px;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 WebGIS UNESCO Indonesia</p>
+    </footer>
+
+    <!-- Script Peta -->
+    <script>
+        // Inisialisasi peta
+        const map = L.map('map').setView([-7.7956, 110.3695], 10);
+
+        // Tile Layer untuk basemap
+        const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Fungsi untuk menentukan warna berdasarkan Kabupaten
+        function getColor(kabupaten) {
+            const colors = {
+                "Sleman": "#e41a1c",
+                "Bantul": "#377eb8",
+                "Gunungkidul": "#4daf4a",
+                "Kulon Progo": "#984ea3",
+                "Yogyakarta": "#ff7f00"
+            };
+            return colors[kabupaten] || "#999999"; // Default warna abu-abu jika tidak cocok
+        }
+
+        // Menambahkan layer GeoJSON untuk area batas kecamatan di Yogyakarta
+        fetch("data/area_diy_kec.geojson")
+            .then(response => response.json())
+            .then(data => {
+                const geojsonLayer = L.geoJSON(data, {
+                    style: function (feature) {
+                        return {
+                            color: "#000000",                 // Warna garis tepi
+                            weight: 1.5,                      // Ketebalan garis
+                            fillColor: getColor(feature.properties.KABUPATEN), // Warna isi berdasarkan KABUPATEN
+                            fillOpacity: 0.6                 // Transparansi isi
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        // Tooltip dengan informasi KECAMATAN dan KABUPATEN
+                        if (feature.properties) {
+                            const { KECAMATAN, KABUPATEN } = feature.properties;
+                            layer.bindTooltip(` 
+                                <div style="text-align:center;">
+                                    <h3>${KECAMATAN}</h3>
+                                    <p>Kabupaten: ${KABUPATEN}</p>
+                                </div>
+                            `, { sticky: false });
+                        }
+                    }
+                }).addTo(map);
+
+                // Zoom ke area yang ditampilkan
+                map.fitBounds(geojsonLayer.getBounds());
+            })
+            .catch(error => console.error("Error loading GeoJSON file:", error));
+
+        // Menambahkan layer GeoJSON untuk jalan kolektor DIY
+        fetch("data/jalan_kolektor_diy.geojson")
+            .then(response => response.json())
+            .then(data => {
+                const jalanLayer = L.geoJSON(data, {
+                    style: function (feature) {
+                        return {
+                            color: "red",      // Warna merah untuk jalur jalan
+                            weight: 2,             // Ketebalan garis jalan
+                            opacity: 0.8           // Transparansi garis
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        // Tooltip dengan informasi nama jalan (jika ada)
+                        if (feature.properties && feature.properties.nama_jalan) {
+                            const { nama_jalan } = feature.properties;
+                            layer.bindTooltip(`
+                                <div style="text-align:center;">
+                                    <p>${nama_jalan}</p>
+                                </div>
+                            `, { sticky: false });
+                        }
+                    }
+                }).addTo(map);
+            })
+            .catch(error => console.error("Error loading GeoJSON file:", error));
+
+        // Data GeoJSON untuk situs warisan alam
+        const naturalSitesGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Prambanan Temple Compounds",
+                        "image": "image/prambanan_budaya.jpg",
+                        "description": "Built in the 10th century, this is the largest temple compound dedicated to Shiva in Indonesia. Rising above the centre of the last of these concentric squares are three temples decorated with reliefs illustrating the epic of the Ramayana, dedicated to the three great Hindu divinities (Shiva, Vishnu and Brahma) and three temples dedicated to the animals who serve them."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.491546, -7.752020]
+                    }
+                },  
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "The Cosmological Axis of Yogyakarta and its Historic Landmarks",
+                        "image": "image/yogyakarta_cosmological_budaya.jpg",
+                        "description": "The central axis of Yogyakarta was established in the 18th century by Sultan Mangkubumi, and has continued from that time as a centre of government and Javanese cultural traditions. The six kilometre north-south axis is positioned to link Mount Merapi and the Indian Ocean, with the Kraton (palace) at its centre, and key cultural monuments lining the axis to the north and south that are connected through rituals. It embodies key beliefs about the cosmos in Javanese culture, including the marking of the cycles of life."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.36652637931886, -7.797740588579066]
+                    }
+                },
+
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Kraton Yogyakarta",
+                        "image": "image/kraton.jpg",
+                        "description": "Kraton Yogyakarta adalah pusat kebudayaan dan istana resmi Kesultanan Yogyakarta."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.3671, -7.8056]
+                    }
+                },
+
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Pantai Parangtritis",
+                        "image": "image/parangtritis.jpg",
+                        "description": "Pantai terkenal di Yogyakarta yang memiliki pemandangan indah dan legenda budaya."
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [110.3319, -8.0246]
+                    }
+                }
+            ]
+        };
+
+        // Menambahkan layer titik GeoJSON ke peta
+        const customIcon = L.icon({
+            iconUrl: "icon/tugu_marker2.png", // Ganti dengan ikon kustom
+            iconSize: [73, 73],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
+        // Menampilkan layer GeoJSON dengan popup
+        L.geoJSON(naturalSitesGeoJSON, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: customIcon }); // Menambahkan ikon kustom
+            },
+            onEachFeature: function (feature, layer) {
+                if (feature.properties) {
+                    const { name, image, description } = feature.properties;
+                    layer.bindPopup(`
+                        <div style="text-align:center; max-width: 300px;">
+                            <img src="${image}" alt="${name}" style="width:100%; border-radius:5px; margin-bottom:10px;">
+                            <h3 style="margin:0;">${name}</h3>
+                            <p style="text-align:justify; font-size:14px;">${description}</p>
+                        </div>
+                    `);
+                }
+            }
+        }).addTo(map);
+    </script>
+</body>
+
+</html>

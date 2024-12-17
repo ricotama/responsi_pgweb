@@ -1,0 +1,378 @@
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  /* Header / Hero Section */
+  .hero {
+    background: url('./image/komodo_alam.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-content {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2em;
+    border-radius: 10px;
+  }
+
+  .hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .hero p {
+    font-size: 1.1em;
+  }
+
+  /* Navigation */
+  nav {
+    background: #264653;
+    color: white;
+    padding: 0.1em 0;
+    text-align: center;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1em;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  nav a:hover {
+    color: #f39c12;
+  }
+
+  /* Interactive Maps Section */
+  .interactive-maps {
+    text-align: center;
+    padding: 2em 0;
+    background-color: #e9c46a;
+  }
+
+  .interactive-maps h2 {
+    margin-bottom: 1em;
+    color: #264653;
+  }
+
+  .heritage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 kolom pada baris pertama */
+    grid-gap: 20px;
+  }
+
+  .heritage-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .heritage-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .heritage-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .heritage-item h3 {
+    margin: 0.5em 0;
+    color: #555;
+    font-size: 1.2rem;
+    margin-top: 15px;
+  }
+
+  .heritage-item p {
+    padding: 0 1em;
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  .button {
+    display: inline-block;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Footer */
+  footer {
+    background: #264653;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    margin-top: 1em;
+  }
+
+  /* Gallery Section */
+  .gallery {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
+  }
+
+  .gallery-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 1em;
+    text-align: center;
+    border-radius: 8px;
+    width: 700px;
+    transition: transform 0.3s ease;
+    margin: 0.5em;
+  }
+
+  .gallery-item:hover {
+    transform: scale(1.05);
+  }
+
+  .gallery-item img {
+    width: 50%;  /* Membuat gambar mengikuti lebar kontainer */
+    height: auto; /* Menjaga aspek rasio gambar */
+    border-radius: 8px; /* Menambahkan sudut yang melengkung pada gambar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Memberikan bayangan halus pada gambar */
+    transition: transform 0.3s ease; /* Efek transisi ketika gambar dihover */
+  }
+
+  .gallery-item p {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: #555;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .heritage-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gallery {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 2em;
+    }
+  }
+
+  /* Landing Page Header */
+  .landing-header {
+    background-color: #264653;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 50px;
+    margin-right: 10px;
+  }
+
+  .logo h1 {
+    font-size: 1.5em;
+  }
+
+  .landing-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1em;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .landing-nav a:hover {
+    color: #f4a261;
+  }
+
+  /* Reset umum */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Body */
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Memastikan footer tetap di bawah */
+    background-color: #f4f4f4;
+  }
+
+  /* Header - Fixed Position */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #264653; /* Warna gelap */
+    padding: 1em 2em;
+    color: white;
+    z-index: 1000;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    width: 50px;
+    margin-right: 10px;
+  }
+
+  .site-name {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .nav-bar ul {
+    display: flex;
+    list-style: none;
+  }
+
+  .nav-bar li {
+    margin-left: 1.5em;
+  }
+
+  .nav-bar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  .nav-bar a:hover {
+    color: #f4a261;
+  }
+
+  /* Main content */
+  .main-content {
+    margin-top: 80px; /* Memberi jarak agar konten tidak tertutup header */
+    flex: 1;
+    padding: 2em;
+    background-color: #f4a261; /* Warna sesuai tampilan */
+    text-align: center;
+  }
+
+  footer {
+    background-color: #264653;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+  }
+
+  /* Header Fixed */
+  .fixed-header-footer header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #264653;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    z-index: 1000; /* Agar berada di atas konten */
+  }
+
+  .fixed-header-footer header .logo img {
+    width: 50px;
+    margin-right: 10px;
+  }
+
+  .fixed-header-footer header .landing-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+  }
+
+  .fixed-header-footer header .landing-nav a:hover {
+    color: #f4a261;
+  }
+
+  /* Footer Fixed */
+  .fixed-header-footer footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #264653;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+  }
+
+  /* Untuk memberikan jarak konten agar tidak tertutup header/footer */
+  .fixed-header-footer .content {
+    padding-top: 80px;  /* Sesuaikan dengan tinggi header */
+    padding-bottom: 80px;  /* Sesuaikan dengan tinggi footer */
+  }
+
+  /* Section Info Pembuat */
+  #about {
+    padding: 2em;
+    background-color: #2a9d8f;
+    color: white;
+    text-align: center;
+  }
+
+  #about ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  #about a {
+    color: #f4a261;
+    text-decoration: none;
+  }
+
+  #about a:hover {
+    text-decoration: underline;
+  }
+
+
+
