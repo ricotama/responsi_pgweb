@@ -59,5 +59,6 @@ GENIUS adalah sebuah platform WebGIS interaktif yang menyajikan informasi lengka
 
 ## e. Hasil Produk
 ![Halaman Utama](./image/homepage.png)
+![Halaman Utama](./image/interactive1.png)
 
 
